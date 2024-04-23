@@ -1,1 +1,2 @@
 # On-Demand-Home-Services-Web-App
+It is a web-based application that redefines the provision of on-demand home services. The project integrates React.js for the frontend, Node.js for the backend, complemented by MongoDB for its database solutions, ensuring a responsive and scalable platform. This project encapsulates a shift towards digitizing and streamlining household task management, thereby revolutionizing the home services industry in urban settings
