@@ -196,6 +196,7 @@ const getTaskerByFilter = asyncHandler(async (req, res) => {
                     number: tasker.number,
                 },
                 service: {
+                    id: matchingService.id,
                     name: matchingService.name,
                     rate: matchingService.rate,
                     description: matchingService.description,

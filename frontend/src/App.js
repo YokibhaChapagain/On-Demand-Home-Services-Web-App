@@ -26,6 +26,7 @@ import UserEdit from "./pages/UserEdit";
 import EditService from "./pages/EditService";
 import TaskerProfile from "./pages/TaskerProfile";
 import TaskerEdit from "./pages/TaskerEdit";
+import Success from "./pages/Success";
 
 function App() {
     const cookies = useCookies([]);
@@ -165,6 +166,10 @@ function App() {
         {
             path: "/services",
             element: <Services />,
+        },
+        {
+            path: "/success",
+            element: <Success />,
         },
         {
             path: "*",

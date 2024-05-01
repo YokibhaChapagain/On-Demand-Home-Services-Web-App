@@ -17,10 +17,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import InnerNavbar from "../components/InnerNavbar";
 
 const validationSchema = yup.object({
-    service: yup
-        .string()
-
-        .required("Service is required"),
+    service: yup.string().required("Service is required"),
     area: yup
         .string()
         .oneOf(["Kathmandu", "Lalitpur", "Bhaktapur"], "Area out of range")

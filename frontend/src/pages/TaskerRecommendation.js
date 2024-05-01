@@ -21,6 +21,7 @@ import ChaletIcon from "@mui/icons-material/Chalet";
 import StarIcon from "@mui/icons-material/Star";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InnerNavbar from "../components/InnerNavbar";
+import axios from "axios";
 
 export default function TaskerRecommendation() {
     const { state } = useLocation();
@@ -33,6 +34,26 @@ export default function TaskerRecommendation() {
         setSortOrder(event.target.value);
     };
 
+    const handlePayment = async (serviceId, rate, taskerId) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/api/payments/create-payment",
+                {
+                    serviceId: serviceId,
+                    amount: rate,
+                    taskerId: taskerId,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
+
+            window.location.href = response.data.url;
+        } catch (error) {
+            console.error("Failed to initiate payment:", error);
+            alert("Payment initiation failed. Please try again.");
+        }
+    };
     const sortedData = () => {
         if (!data || !Array.isArray(data) || data.length === 0) {
             return null;
@@ -246,6 +267,13 @@ export default function TaskerRecommendation() {
                                     sx={{
                                         background: "teal",
                                         borderRadius: 4,
+                                    }}
+                                    onClick={() => {
+                                        handlePayment(
+                                            recommendation.service.id,
+                                            recommendation.service.rate,
+                                            recommendation.tasker._id
+                                        );
                                     }}
                                 >
                                     Select & Continue

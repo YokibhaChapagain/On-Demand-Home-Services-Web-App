@@ -48,6 +48,27 @@ export default function TaskerDescription() {
         fetchTaskerDetails();
     }, [id]);
 
+    const handlePayment = async (serviceId, rate, taskerId) => {
+        try {
+            const response = await axios.post(
+                "http://localhost:5000/api/payments/create-payment",
+                {
+                    serviceId: serviceId,
+                    amount: rate,
+                    taskerId: taskerId,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
+
+            window.location.href = response.data.url;
+        } catch (error) {
+            console.error("Failed to initiate payment:", error);
+            alert("Payment initiation failed. Please try again.");
+        }
+    };
+
     return (
         <>
             <Box sx={{ minHeight: "100vh", bgcolor: "#F2F2F2" }}>
@@ -248,6 +269,13 @@ export default function TaskerDescription() {
                                                                 background:
                                                                     "teal",
                                                             }}
+                                                            onClick={() =>
+                                                                handlePayment(
+                                                                    service._id,
+                                                                    service.rate,
+                                                                    service.taskerId
+                                                                )
+                                                            }
                                                         >
                                                             Select & Continue
                                                         </Button>
