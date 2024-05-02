@@ -15,6 +15,8 @@ const {
     updateService,
     deleteService,
 } = require("../controllers/serviceController");
+const { getUpcomingTasks } = require("../controllers/taskController");
+
 const { upload } = require("../upload");
 
 const validateToken = require("../middleware/validateToken");
@@ -36,5 +38,6 @@ router.get("/getServiceById/:id", getServiceById);
 router.get("/getServiceByTaskerId/:taskerId", getServiceByTaskerId);
 router.put("/updateService/:id", updateService);
 router.delete("/deleteService/:id", deleteService);
+router.get("/upcoming-tasks", validateToken, getUpcomingTasks);
 
 module.exports = router;
