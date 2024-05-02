@@ -14,14 +14,17 @@ const paymentSchema = new mongoose.Schema(
         taskerId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: "Tasker",
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: "User",
         },
         serviceId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
+            ref: "Service",
         },
     },
     { timestamps: true }
