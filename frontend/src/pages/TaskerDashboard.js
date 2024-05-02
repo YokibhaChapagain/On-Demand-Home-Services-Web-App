@@ -52,6 +52,63 @@ export default function TaskerDashboard() {
     const [services, setServices] = useState([]);
     const navigate = useNavigate();
     const [tasker, setTasker] = useState([]);
+    const [upcomingTasks, setUpcomingTasks] = useState([]);
+    const [chartData, setChartData] = useState({
+        labels: ["January", "February", "March", "April", "May", "June"],
+        datasets: [
+            {
+                label: "Monthly Revenue (Rs)",
+                data: [],
+                backgroundColor: ["rgba(75, 192, 192, 0.2)"],
+                borderColor: ["rgba(75, 192, 192, 1)"],
+                borderWidth: 1,
+            },
+        ],
+    });
+
+    useEffect(() => {
+        const fetchUpcomingTasks = async () => {
+            try {
+                const { data } = await axios.get(
+                    "http://localhost:5000/api/taskers/upcoming-tasks",
+                    {
+                        withCredentials: true,
+                    }
+                );
+                setUpcomingTasks(
+                    data.map((task) => ({
+                        id: task._id,
+                        title: `${task.serviceId.name} in ${task.userId.address}`,
+                        user: task.userId.name,
+                    }))
+                );
+                const revenueByMonth = new Array(6).fill(0); // tracking the first 6 months
+                data.forEach((task) => {
+                    const month = new Date(task.createdAt).getMonth();
+                    if (month < 6) {
+                        revenueByMonth[month] += task.amount;
+                    }
+                });
+
+                setChartData((prevData) => ({
+                    ...prevData,
+                    datasets: [
+                        {
+                            ...prevData.datasets[0],
+                            data: revenueByMonth,
+                        },
+                    ],
+                }));
+            } catch (error) {
+                console.error("Failed to fetch upcoming tasks:", error);
+                setUpcomingTasks([]);
+            }
+        };
+
+        if (userId) {
+            fetchUpcomingTasks();
+        }
+    }, [userId]);
 
     const handleLogout = async () => {
         try {
@@ -98,20 +155,7 @@ export default function TaskerDashboard() {
     const handleViewMyServices = () => {
         navigate(`/taskers/myservices/${userId}`);
     };
-    const upcomingTasks = [
-        { id: 1, title: "Plumbing in City Center", user: "Ramita K.c" },
-        {
-            id: 2,
-            title: "Electric Repair in Riverside",
-            user: "Sharukh Upreti",
-        },
-        { id: 3, title: "Plumbing in City Center", user: "Keshav Aryal" },
-        {
-            id: 4,
-            title: "Electric Repair in Riverside",
-            user: " Riya Shah",
-        },
-    ];
+
     const reviews = [
         {
             id: 1,
@@ -136,18 +180,18 @@ export default function TaskerDashboard() {
         },
     ];
 
-    const chartData = {
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [
-            {
-                label: "Monthly Revenue (Rs)",
-                data: [20300, 18400, 22300, 24500, 25600, 25300],
-                backgroundColor: ["rgba(75, 192, 192, 0.2)"],
-                borderColor: ["rgba(75, 192, 192, 1)"],
-                borderWidth: 1,
-            },
-        ],
-    };
+    // const chartData = {
+    //     labels: ["January", "February", "March", "April", "May", "June"],
+    //     datasets: [
+    //         {
+    //             label: "Monthly Revenue (Rs)",
+    //             data: [20300, 18400, 22300, 24500, 25600, 25300],
+    //             backgroundColor: ["rgba(75, 192, 192, 0.2)"],
+    //             borderColor: ["rgba(75, 192, 192, 1)"],
+    //             borderWidth: 1,
+    //         },
+    //     ],
+    // };
 
     const chartOptions = {
         scales: {

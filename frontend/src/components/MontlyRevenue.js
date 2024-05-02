@@ -4,6 +4,12 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import { Bar } from "react-chartjs-2";
 
 function MonthlyRevenue({ data, options, onNavigate }) {
+    const calculateTotalRevenue = () => {
+        return data.datasets.reduce((acc, dataset) => {
+            return acc + dataset.data.reduce((sum, value) => sum + value, 0);
+        }, 0);
+    };
+    const totalRevenue = calculateTotalRevenue();
     return (
         <Paper
             elevation={3}
@@ -18,7 +24,7 @@ function MonthlyRevenue({ data, options, onNavigate }) {
                 Monthly Revenue
             </Typography>
             <Typography variant="h4" sx={{ marginY: 2 }}>
-                Rs 25,300
+                Rs {totalRevenue.toLocaleString()}
             </Typography>
             <Button
                 startIcon={<AssessmentIcon />}
