@@ -26,6 +26,10 @@ const paymentSchema = new mongoose.Schema(
             required: true,
             ref: "Service",
         },
+        taskCompleted: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true }
 );
