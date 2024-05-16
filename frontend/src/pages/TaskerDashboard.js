@@ -317,7 +317,7 @@ export default function TaskerDashboard() {
                 <Grid item xs={12} sm={4}>
                     <UpcomingTasks
                         tasks={upcomingTasks}
-                        onNavigate={() => navigate("/taskers/addtask")}
+                        onNavigate={() => navigate("/taskers/taskdetail")}
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>

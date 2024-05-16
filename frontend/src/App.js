@@ -27,6 +27,7 @@ import EditService from "./pages/EditService";
 import TaskerProfile from "./pages/TaskerProfile";
 import TaskerEdit from "./pages/TaskerEdit";
 import Success from "./pages/Success";
+import TaskDetail from "./pages/TaskDetail";
 
 function App() {
     const cookies = useCookies([]);
@@ -111,6 +112,14 @@ function App() {
             path: "/taskers/dashboard",
             element: cookies[0].token ? (
                 <TaskerDashboard />
+            ) : (
+                <Navigate to="/tasker/login" />
+            ),
+        },
+        {
+            path: "/taskers/taskdetail",
+            element: cookies[0].token ? (
+                <TaskDetail />
             ) : (
                 <Navigate to="/tasker/login" />
             ),
