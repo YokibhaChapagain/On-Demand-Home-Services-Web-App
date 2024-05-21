@@ -15,7 +15,10 @@ const {
     updateService,
     deleteService,
 } = require("../controllers/serviceController");
-const { getUpcomingTasks } = require("../controllers/taskController");
+const {
+    getUpcomingTasks,
+    updateTaskStatus,
+} = require("../controllers/taskController");
 
 const { upload } = require("../upload");
 
@@ -39,5 +42,6 @@ router.get("/getServiceByTaskerId/:taskerId", getServiceByTaskerId);
 router.put("/updateService/:id", updateService);
 router.delete("/deleteService/:id", deleteService);
 router.get("/upcoming-tasks", validateToken, getUpcomingTasks);
+router.put("/update-task-status", validateToken, updateTaskStatus);
 
 module.exports = router;

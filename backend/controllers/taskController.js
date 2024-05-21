@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler");
 
 const getUpcomingTasks = asyncHandler(async (req, res) => {
     const taskerId = req.tasker.id;
-    console.log(taskerId);
 
     try {
         const payments = await Payment.find({
@@ -26,4 +25,30 @@ const getUpcomingTasks = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { getUpcomingTasks };
+const updateTaskStatus = asyncHandler(async (req, res) => {
+    const { taskerId, userId, serviceId } = req.body;
+    const { taskCompleted } = req.body;
+
+    try {
+        const payment = await Payment.findOne({
+            taskerId: taskerId,
+            userId: userId,
+            serviceId: serviceId,
+            status: true,
+        });
+
+        if (!payment) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+
+        payment.taskCompleted = taskCompleted;
+        await payment.save();
+
+        res.status(200).json({ message: "Task status updated successfully" });
+    } catch (error) {
+        console.error("Failed to update task status:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+module.exports = { getUpcomingTasks, updateTaskStatus };
