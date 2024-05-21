@@ -24,6 +24,10 @@ export default function TaskDetail() {
                         user: task.userId.name,
                         address: task.userId.address,
                         number: task.userId.number,
+                        taskCompleted: task.taskCompleted,
+                        taskerId: task.taskerId,
+                        userId: task.userId._id,
+                        serviceId: task.serviceId._id,
                     }))
                 );
             } catch (error) {
