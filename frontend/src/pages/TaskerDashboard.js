@@ -176,19 +176,6 @@ export default function TaskerDashboard() {
         navigate(`/taskers/myservices/${userId}`);
     };
 
-    // const chartData = {
-    //     labels: ["January", "February", "March", "April", "May", "June"],
-    //     datasets: [
-    //         {
-    //             label: "Monthly Revenue (Rs)",
-    //             data: [20300, 18400, 22300, 24500, 25600, 25300],
-    //             backgroundColor: ["rgba(75, 192, 192, 0.2)"],
-    //             borderColor: ["rgba(75, 192, 192, 1)"],
-    //             borderWidth: 1,
-    //         },
-    //     ],
-    // };
-
     const chartOptions = {
         scales: {
             y: {
@@ -321,11 +308,7 @@ export default function TaskerDashboard() {
                     />
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                    <MonthlyRevenue
-                        data={chartData}
-                        options={chartOptions}
-                        onNavigate={() => navigate("/taskers/revenue")}
-                    />
+                    <MonthlyRevenue data={chartData} options={chartOptions} />
                 </Grid>
                 <Grid item xs={12} sm={4}>
                     <UserReviews
