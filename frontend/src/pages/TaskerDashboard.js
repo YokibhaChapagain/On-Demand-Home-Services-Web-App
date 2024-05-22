@@ -19,9 +19,6 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-import userreview1 from "../assets/images/userreview1.jpg";
-import userreview2 from "../assets/images/userreview2.jpg";
-import userreview3 from "../assets/images/usererview3.jpg";
 import SearchIcon from "@mui/icons-material/Search";
 import UpcomingTasks from "../components/UpcomingTasks";
 import MonthlyRevenue from "../components/MontlyRevenue";
@@ -53,6 +50,7 @@ export default function TaskerDashboard() {
     const navigate = useNavigate();
     const [tasker, setTasker] = useState([]);
     const [upcomingTasks, setUpcomingTasks] = useState([]);
+    const [reviews, setReviews] = useState([]);
     const [chartData, setChartData] = useState({
         labels: ["January", "February", "March", "April", "May", "June"],
         datasets: [
@@ -104,9 +102,31 @@ export default function TaskerDashboard() {
                 setUpcomingTasks([]);
             }
         };
-
+        const fetchReviews = async () => {
+            try {
+                const { data } = await axios.get(
+                    `http://localhost:5000/api/reviews/reviewById/${userId}`,
+                    {
+                        withCredentials: true,
+                    }
+                );
+                setReviews(
+                    data.map((review) => ({
+                        id: review._id,
+                        name: review.userId.name,
+                        rating: review.rating,
+                        comment: review.description,
+                        imgSrc: `http://localhost:5000/images/${review.userId.profilePicture}`,
+                    }))
+                );
+            } catch (error) {
+                console.error("Failed to fetch reviews:", error);
+                setReviews([]);
+            }
+        };
         if (userId) {
             fetchUpcomingTasks();
+            fetchReviews();
         }
     }, [userId]);
 
@@ -156,29 +176,29 @@ export default function TaskerDashboard() {
         navigate(`/taskers/myservices/${userId}`);
     };
 
-    const reviews = [
-        {
-            id: 1,
-            name: "Alice Koirala",
-            rating: 4,
-            comment: "Very professional and timely service!",
-            imgSrc: userreview1,
-        },
-        {
-            id: 2,
-            name: "Bob Thapa",
-            rating: 5,
-            comment: "Outstanding work! Highly recommend.",
-            imgSrc: userreview3,
-        },
-        {
-            id: 3,
-            name: "Seyara Shah",
-            rating: 3,
-            comment: "Good service but could be faster.",
-            imgSrc: userreview2,
-        },
-    ];
+    // const reviews = [
+    //     {
+    //         id: 1,
+    //         name: "Alice Koirala",
+    //         rating: 4,
+    //         comment: "Very professional and timely service!",
+    //         imgSrc: userreview1,
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Bob Thapa",
+    //         rating: 5,
+    //         comment: "Outstanding work! Highly recommend.",
+    //         imgSrc: userreview3,
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Seyara Shah",
+    //         rating: 3,
+    //         comment: "Good service but could be faster.",
+    //         imgSrc: userreview2,
+    //     },
+    // ];
 
     // const chartData = {
     //     labels: ["January", "February", "March", "April", "May", "June"],

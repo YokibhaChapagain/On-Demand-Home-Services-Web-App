@@ -51,4 +51,36 @@ const updateTaskStatus = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { getUpcomingTasks, updateTaskStatus };
+const getCompletedTasksDetails = asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const payments = await Payment.find({
+            userId: userId,
+            taskCompleted: true,
+            status: true,
+        }).populate("taskerId serviceId");
+
+        if (!payments.length) {
+            return res
+                .status(404)
+                .json({ message: "No completed tasks found for this user." });
+        }
+
+        const taskDetails = payments.map((payment) => ({
+            tasker: payment.taskerId,
+            service: payment.serviceId,
+        }));
+
+        res.status(200).json(taskDetails);
+    } catch (error) {
+        console.error("Error fetching completed tasks details:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+module.exports = {
+    getUpcomingTasks,
+    updateTaskStatus,
+    getCompletedTasksDetails,
+};
