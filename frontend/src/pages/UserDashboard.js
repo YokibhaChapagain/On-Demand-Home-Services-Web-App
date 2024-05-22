@@ -215,7 +215,12 @@ export default function UserDashboard() {
                         >
                             Book a Task
                         </Button>
-
+                        <Button
+                            variant="inherit"
+                            onClick={() => navigate("/users/review")}
+                        >
+                            Review
+                        </Button>
                         <Button
                             variant="inherit"
                             onClick={() =>

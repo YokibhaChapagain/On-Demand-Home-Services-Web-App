@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", require("./routes/userRoute"));
 app.use("/api/taskers", require("./routes/taskerRoute"));
 app.use("/api/payments", require("./routes/paymentRoute"));
+app.use("/api/reviews", require("./routes/reviewRoute"));
 
 app.listen(process.env.PORT, () => {
     console.log("Working on...", process.env.PORT);

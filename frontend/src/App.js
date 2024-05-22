@@ -28,6 +28,8 @@ import TaskerProfile from "./pages/TaskerProfile";
 import TaskerEdit from "./pages/TaskerEdit";
 import Success from "./pages/Success";
 import TaskDetail from "./pages/TaskDetail";
+import Review from "./pages/Review";
+import UserReviews from "./pages/UserReviews";
 
 function App() {
     const cookies = useCookies([]);
@@ -104,6 +106,22 @@ function App() {
             path: "/users/userprofile/edit/:id",
             element: cookies[0].token ? (
                 <UserEdit />
+            ) : (
+                <Navigate to="/user/login" />
+            ),
+        },
+        {
+            path: "/users/review",
+            element: cookies[0].token ? (
+                <Review />
+            ) : (
+                <Navigate to="/user/login" />
+            ),
+        },
+        {
+            path: "/users/userreviews",
+            element: cookies[0].token ? (
+                <UserReviews />
             ) : (
                 <Navigate to="/user/login" />
             ),

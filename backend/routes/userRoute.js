@@ -13,6 +13,7 @@ const {
 } = require("../controllers/forgetController");
 const { getServices } = require("../controllers/serviceController");
 const { getTaskerByFilter } = require("../controllers/taskerController");
+const { getCompletedTasksDetails } = require("../controllers/taskController");
 
 const validateToken = require("../middleware/validateToken");
 
@@ -27,5 +28,6 @@ router.post("/reset-password/:token", resetPassword);
 router.get("/getServices", getServices);
 router.put("/updateUser/:id", upload.single("profilePicture"), updateUser);
 router.get("/getTaskerByFilter", getTaskerByFilter);
+router.get("/getCompletedTaskDetail", validateToken, getCompletedTasksDetails);
 
 module.exports = router;

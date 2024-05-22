@@ -33,7 +33,7 @@ function UserReviews({ reviews, onNavigate }) {
             </Typography>
             <List sx={{ width: "100%" }}>
                 {reviews.map((review) => (
-                    <ListItem key={review.id} alignItems="flex-start">
+                    <ListItem key={review._id} alignItems="flex-start">
                         <ListItemAvatar>
                             <Avatar
                                 alt={review.name}
@@ -53,7 +53,7 @@ function UserReviews({ reviews, onNavigate }) {
                                     </Typography>
                                     <Rating
                                         name="read-only"
-                                        value={review.rating}
+                                        value={parseInt(review.rating)}
                                         readOnly
                                         size="small"
                                     />
