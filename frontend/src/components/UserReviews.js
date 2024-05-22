@@ -13,6 +13,9 @@ import {
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
 function UserReviews({ reviews, onNavigate }) {
+    const handleViewAllReviews = () => {
+        onNavigate(reviews);
+    };
     return (
         <Paper
             elevation={3}
@@ -72,7 +75,7 @@ function UserReviews({ reviews, onNavigate }) {
                     ":hover": { background: "#88b9bc" },
                 }}
                 variant="contained"
-                onClick={onNavigate}
+                onClick={handleViewAllReviews}
             >
                 View all reviews
             </Button>

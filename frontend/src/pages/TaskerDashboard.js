@@ -176,30 +176,6 @@ export default function TaskerDashboard() {
         navigate(`/taskers/myservices/${userId}`);
     };
 
-    // const reviews = [
-    //     {
-    //         id: 1,
-    //         name: "Alice Koirala",
-    //         rating: 4,
-    //         comment: "Very professional and timely service!",
-    //         imgSrc: userreview1,
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Bob Thapa",
-    //         rating: 5,
-    //         comment: "Outstanding work! Highly recommend.",
-    //         imgSrc: userreview3,
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Seyara Shah",
-    //         rating: 3,
-    //         comment: "Good service but could be faster.",
-    //         imgSrc: userreview2,
-    //     },
-    // ];
-
     // const chartData = {
     //     labels: ["January", "February", "March", "April", "May", "June"],
     //     datasets: [
@@ -235,6 +211,10 @@ export default function TaskerDashboard() {
         if (newValue) {
             navigate(`/taskers/myservices/${userId}`);
         }
+    };
+
+    const handleNavigateToReviews = (reviews) => {
+        navigate("/taskers/reviews", { state: { reviews } });
     };
     return (
         <>
@@ -350,7 +330,7 @@ export default function TaskerDashboard() {
                 <Grid item xs={12} sm={4}>
                     <UserReviews
                         reviews={reviews}
-                        onNavigate={() => navigate("/taskers/reviews")}
+                        onNavigate={handleNavigateToReviews}
                     />
                 </Grid>
             </Grid>

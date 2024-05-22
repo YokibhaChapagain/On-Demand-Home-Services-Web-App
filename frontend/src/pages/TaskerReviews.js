@@ -1,52 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import {
+    Avatar,
+    Typography,
     Container,
     Card,
     CardContent,
-    Typography,
-    Avatar,
     Box,
 } from "@mui/material";
-import axios from "axios";
 import InnerNavbar from "../components/InnerNavbar";
-import { useAuth } from "../AuthContext";
-import { toast, ToastContainer } from "react-toastify";
 
-export default function UserReviews() {
-    const [reviews, setReviews] = useState([]);
-    const { userId } = useAuth();
+export default function TaskerReviews() {
+    const location = useLocation();
+    const { reviews } = location.state || { reviews: [] };
 
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                const { data } = await axios.get(
-                    "http://localhost:5000/api/reviews/getallreview",
-                    {
-                        withCredentials: true,
-                    }
-                );
-                setReviews(data);
-            } catch (error) {
-                console.error("Failed to fetch reviews:", error);
-                toast.error("Failed to fetch reviews");
-            }
-        };
-
-        fetchReviews();
-    }, [userId]);
     return (
         <>
-            <ToastContainer />
-            <InnerNavbar userType={"user"} />
+            <InnerNavbar userType={"tasker"} />
             <Box sx={{ textAlign: "center", m: 2 }}>
                 <Typography variant="h5" fontWeight={600}>
-                    Reviews Posted{" "}
+                    Your Reviews
                 </Typography>
             </Box>
             <Container sx={{ mt: 4 }}>
                 {reviews.map((review) => (
                     <Card
-                        key={review._id}
+                        key={review.id}
                         sx={{
                             display: "flex",
                             alignItems: "center",
@@ -56,18 +35,15 @@ export default function UserReviews() {
                         }}
                     >
                         <Avatar
-                            alt={review.taskerId.name}
-                            src={`http://localhost:5000/images/${review.taskerId.profilePicture}`}
+                            alt={review.name}
+                            src={review.imgSrc}
                             sx={{ width: 64, height: 64, mr: 2 }}
                         />
                         <CardContent sx={{ flex: 1 }}>
-                            <Typography variant="h6">
-                                {review.taskerId.name}
-                            </Typography>
+                            <Typography variant="h6">{review.name}</Typography>
                             <Typography variant="body2" color="text.secondary">
-                                {review.description}
+                                {review.comment}
                             </Typography>
-
                             <Box
                                 sx={{
                                     display: "flex",
@@ -91,9 +67,6 @@ export default function UserReviews() {
                                     </Box>
                                 ))}
                             </Box>
-                            <Typography variant="body2" color="text.secondary">
-                                From: {review.userId.name}
-                            </Typography>
                         </CardContent>
                     </Card>
                 ))}
